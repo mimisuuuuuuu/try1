@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
+  <!-- 배경 이미지 -->
+<img src="window.webp" class="background" alt="background">
+
 <head>
   <meta charset="UTF-8">
   <title>하늘나라 보내주기 대작전</title>
@@ -15,16 +18,16 @@
       cursor: default;
     }
 
-  .page {
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: black;
-  position: relative;
-  display: none;
+  object-fit: cover;
+  z-index: -1;
 }
+
 
 
     #main-page {
@@ -112,7 +115,3 @@
         // 필요한 경우 여기에 fullscreen exit 후 로직 넣을 수 있음
       }
     });
-  </script>
-
-</body>
-</html>
