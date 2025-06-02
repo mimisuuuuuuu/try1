@@ -12,6 +12,7 @@
 
     body {
       overflow: hidden;
+      cursor: default;
     }
 
     .page {
@@ -43,7 +44,6 @@
       filter: brightness(1.2);
     }
 
-    /* 버튼 위치 */
     #btn-start {
       top: 460px;
       left: 100px;
@@ -81,7 +81,7 @@
     const howPage = document.getElementById('how-page');
 
     document.getElementById('btn-start').addEventListener('click', () => {
-      window.location.href = "game.html"; // 실제 게임 페이지로 연결
+      window.location.href = "game.html";
     });
 
     document.getElementById('btn-how').addEventListener('click', () => {
@@ -89,8 +89,23 @@
       howPage.style.display = 'block';
     });
 
-    document.getElementById('btn-start2').addEventListener('click', () => {
-      window.location.href = "game.html"; // 실제 게임 페이지로 연결
+    // ✅ 메인 배경 클릭 시 전체화면 진입
+    mainPage.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn(`전체화면 전환 실패: ${err.message}`);
+        });
+      }
+    });
+
+    // ✅ ESC로 빠져나오면 자동으로 종료됨 (브라우저 기본 기능)
+
+    // ✅ 전체화면 빠져나온 뒤에도 다시 클릭하면 재진입 가능
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        // 사용자가 ESC 눌러 전체화면 종료 시 아무 처리 없이 둬도 됨
+        // 필요한 경우 여기에 fullscreen exit 후 로직 넣을 수 있음
+      }
     });
   </script>
 
