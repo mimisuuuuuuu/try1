@@ -15,9 +15,6 @@
       height: 100%;
       overflow: hidden;
       cursor: default;
-    }
-
-    body {
       background: url('window.webp') no-repeat center center fixed;
       background-size: cover;
     }
@@ -29,21 +26,21 @@
       top: 0;
       left: 0;
       display: none;
-    }
-
-    #main-page {
-      display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    #main-container {
-      position: relative;
-      width: 60vw;  /* mainimage 크기 줄이기 */
-      max-width: 960px;
+    .active {
+      display: flex !important;
     }
 
-    #main-container img.main-image {
+    .container {
+      position: relative;
+      width: 70vw;  /* 이미지 크기 키움 */
+      max-width: 1100px;
+    }
+
+    .page-img {
       width: 100%;
       height: auto;
       display: block;
@@ -61,34 +58,30 @@
     }
 
     #btn-start {
-      top: 50%;  /* 위치 조정 */
+      top: 60%;
       left: 10%;
-      width: 220px;
+      width: 270px;
     }
 
     #btn-how {
-      top: 70%;
+      top: 65%;
       left: 10%;
-      width: 220px;
-    }
-
-    #how-page {
-      background-image: url('howtoplay_image.jpg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
+      width: 270px;
     }
 
     #btn-start2 {
-      position: absolute;
       bottom: 30px;
       right: 40px;
-      width: 200px;
+      width: 220px;
     }
 
     @media (max-width: 768px) {
+      .container {
+        width: 90vw;
+      }
+
       #btn-start, #btn-how, #btn-start2 {
-        width: 160px;
+        width: 180px;
       }
     }
   </style>
@@ -96,9 +89,9 @@
 <body>
 
   <!-- 메인 페이지 -->
-  <div id="main-page" class="page" style="display: flex;">
-    <div id="main-container">
-      <img src="mainimage.jpg" alt="메인 이미지" class="main-image">
+  <div id="main-page" class="page active">
+    <div class="container">
+      <img src="mainimage.jpg" alt="메인 이미지" class="page-img">
       <img src="gamestart.png" id="btn-start" class="button" alt="게임 시작">
       <img src="gamehow.png" id="btn-how" class="button" alt="게임 방법">
     </div>
@@ -106,7 +99,10 @@
 
   <!-- 게임 방법 페이지 -->
   <div id="how-page" class="page">
-    <img src="gamestart2.png" id="btn-start2" class="button" alt="게임 시작">
+    <div class="container">
+      <img src="howtoplay_image.jpg" alt="게임 방법 이미지" class="page-img">
+      <img src="gamestart2.png" id="btn-start2" class="button" alt="게임 시작">
+    </div>
   </div>
 
   <script>
@@ -118,11 +114,11 @@
     });
 
     document.getElementById('btn-how').addEventListener('click', () => {
-      mainPage.style.display = 'none';
-      howPage.style.display = 'block';
+      mainPage.classList.remove('active');
+      howPage.classList.add('active');
     });
 
-    // ✅ 메인 배경 클릭 시 전체화면 진입
+    // 전체화면 진입
     mainPage.addEventListener('click', () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(err => {
@@ -130,8 +126,6 @@
         });
       }
     });
-
-    // ✅ ESC 기본 기능으로 전체화면 종료됨
   </script>
 
 </body>
