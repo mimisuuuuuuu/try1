@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>하늘나라 보내주기 대작전</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .page {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: none;
+    }
+
+    #main-page {
+      background-image: url('mainimage.jpg');
+      display: block;
+    }
+
+    #how-page {
+      background-image: url('howtoplay_image.jpg');
+    }
+
+    .button {
+      position: absolute;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+
+    /* 버튼 위치 */
+    #btn-start {
+      top: 460px;
+      left: 100px;
+      width: 200px;
+    }
+
+    #btn-how {
+      top: 570px;
+      left: 100px;
+      width: 200px;
+    }
+
+    #btn-start2 {
+      bottom: 30px;
+      right: 40px;
+      width: 180px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 메인 페이지 -->
+  <div id="main-page" class="page">
+    <img src="gamestart.png" id="btn-start" class="button" alt="게임 시작">
+    <img src="gamehow.png" id="btn-how" class="button" alt="게임 방법">
+  </div>
+
+  <!-- 게임 방법 페이지 -->
+  <div id="how-page" class="page">
+    <img src="gamestart2.png" id="btn-start2" class="button" alt="게임 시작">
+  </div>
+
+  <script>
+    const mainPage = document.getElementById('main-page');
+    const howPage = document.getElementById('how-page');
+
+    document.getElementById('btn-start').addEventListener('click', () => {
+      window.location.href = "game.html"; // 실제 게임 페이지로 연결
+    });
+
+    document.getElementById('btn-how').addEventListener('click', () => {
+      mainPage.style.display = 'none';
+      howPage.style.display = 'block';
+    });
+
+    document.getElementById('btn-start2').addEventListener('click', () => {
+      window.location.href = "game.html"; // 실제 게임 페이지로 연결
+    });
+  </script>
+
+</body>
+</html>
