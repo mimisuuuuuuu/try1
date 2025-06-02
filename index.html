@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <!-- 배경 이미지 -->
-<img src="window.webp" class="background" alt="background">
-
 <head>
   <meta charset="UTF-8">
-  <title>하늘나라 보내주기 대작전</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>천국가기 대작전</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
       overflow: hidden;
-      cursor: default;
+      background-color: black;
     }
 
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-}
-
-
-
-    #main-page {
-      background-image: url('mainimage.jpg');
-      display: block;
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      z-index: -1;
+      background-color: black;
     }
 
-    #how-page {
-      background-image: url('howtoplay_image.jpg');
+    .main-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90vw;
+      max-height: 90vh;
+      z-index: 0;
     }
 
    .button {
@@ -45,73 +38,72 @@
   height: auto;
   transition: transform 0.2s ease;
   cursor: pointer;
-}
-
-.button:hover {
-  transform: scale(1.08);
-  filter: brightness(1.2);/* ✅ 호버 시 약간 더 커짐 */
-}
-
-    #btn-start {
-      top: 460px;
-      left: 100px;
-      width: 200px;
+     
+    .button:hover {
+      transform: scale(1.05);
+      filter: brightness(1.2);
     }
 
-    #btn-how {
-      top: 570px;
-      left: 100px;
-      width: 200px;
+    #gamestart {
+      top: 55%;
+      left: 38%;
     }
 
-    #btn-start2 {
-      bottom: 30px;
-      right: 40px;
-      width: 180px;
+    #gamehow {
+      top: 55%;
+      left: 58%;
+    }
+
+    #gamestart2 {
+      bottom: 5%;
+      right: 5%;
     }
   </style>
 </head>
 <body>
+  <!-- 배경 이미지 -->
+  <img src="window.webp" class="background" alt="background">
 
-  <!-- 메인 페이지 -->
-  <div id="main-page" class="page">
-    <img src="gamestart.png" id="btn-start" class="button" alt="게임 시작">
-    <img src="gamehow.png" id="btn-how" class="button" alt="게임 방법">
-  </div>
+  <!-- 첫 화면 이미지 -->
+  <img src="mainimage.jpg" class="main-image" id="mainPage" alt="main">
 
-  <!-- 게임 방법 페이지 -->
-  <div id="how-page" class="page">
-    <img src="gamestart2.png" id="btn-start2" class="button" alt="게임 시작">
-  </div>
+  <!-- 게임 시작 버튼 (첫 화면) -->
+  <img src="gamestart.png" class="button" id="gamestart" onclick="startGame()">
+
+  <!-- 게임 방법 버튼 -->
+  <img src="gamehow.png" class="button" id="gamehow" onclick="showHowToPlay()">
+
+  <!-- 게임 방법 화면 -->
+  <img src="howtoplay.jpg" class="main-image" id="howtoPage" alt="howto" style="display: none;">
+
+  <!-- 게임 시작 버튼 (게임 방법 화면) -->
+  <img src="gamestart2.png" class="button" id="gamestart2" onclick="startGame()" style="display: none;">
 
   <script>
-    const mainPage = document.getElementById('main-page');
-    const howPage = document.getElementById('how-page');
+    function showHowToPlay() {
+      document.getElementById('mainPage').style.display = 'none';
+      document.getElementById('gamestart').style.display = 'none';
+      document.getElementById('gamehow').style.display = 'none';
 
-    document.getElementById('btn-start').addEventListener('click', () => {
-      window.location.href = "game.html";
-    });
+      document.getElementById('howtoPage').style.display = 'block';
+      document.getElementById('gamestart2').style.display = 'block';
+    }
 
-    document.getElementById('btn-how').addEventListener('click', () => {
-      mainPage.style.display = 'none';
-      howPage.style.display = 'block';
-    });
+    function startGame() {
+      // 여기에 게임 본편으로 넘어가는 코드 추가 예정
+      alert("게임을 시작합니다! 다음 페이지 연결은 여기에 구현하세요.");
+    }
 
-    // ✅ 메인 배경 클릭 시 전체화면 진입
-    mainPage.addEventListener('click', () => {
+    // 클릭 시 전체화면 전환
+    document.addEventListener('click', () => {
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-          console.warn(`전체화면 전환 실패: ${err.message}`);
+        document.documentElement.requestFullscreen().catch((err) => {
+          console.warn(`전체화면 실패: ${err.message}`);
         });
       }
     });
 
-    // ✅ ESC로 빠져나오면 자동으로 종료됨 (브라우저 기본 기능)
-
-    // ✅ 전체화면 빠져나온 뒤에도 다시 클릭하면 재진입 가능
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        // 사용자가 ESC 눌러 전체화면 종료 시 아무 처리 없이 둬도 됨
-        // 필요한 경우 여기에 fullscreen exit 후 로직 넣을 수 있음
-      }
-    });
+    // ESC로 전체화면 빠져나오기 허용됨 (브라우저 기본 기능)
+  </script>
+</body>
+</html>
