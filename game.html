@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>하늘나라 보내주기 대작전 - 게임화면</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body {
+      background: url('maingameimages/maingame.png') no-repeat center center;
+      background-size: cover;
+      position: relative;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #portrait {
+      position: absolute;
+      top: 18.8%;
+      left: 39.3%;
+      width: 21%;
+      z-index: 2;
+    }
+
+    #send-button {
+      position: absolute;
+      bottom: 9.2%;
+      right: 20.3%;
+      width: 6%;
+      cursor: pointer;
+    }
+
+    #like-button {
+      position: absolute;
+      bottom: 8.8%;
+      right: 8%;
+      width: 6%;
+      cursor: pointer;
+    }
+
+    #percent-text {
+      position: absolute;
+      top: 8%;
+      right: 12%;
+      font-size: 1.2rem;
+      color: #fff;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px black;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 영정사진 -->
+  <img id="portrait" src="maingameimages/portrait1.png" alt="영정사진">
+
+  <!-- 퍼센트 텍스트 -->
+  <div id="percent-text">천국으로 가기까지 0%</div>
+
+  <!-- 전송 버튼 -->
+  <img id="send-button" src="maingameimages/send.png" alt="전송">
+
+  <!-- 좋아요 버튼 -->
+  <img id="like-button" src="maingameimages/like.png" alt="좋아요">
+
+  <script>
+    let percentage = 0;
+
+    const portrait = document.getElementById('portrait');
+    const percentText = document.getElementById('percent-text');
+    const portraits = [
+      "portrait1.png", "portrait2.png", "portrait3.png",
+      "portrait4.png", "portrait5.png", "portrait6.png"
+    ];
+
+    function updatePortrait() {
+      let index = 0;
+      if (percentage >= 80) index = 5;
+      else if (percentage >= 64) index = 4;
+      else if (percentage >= 48) index = 3;
+      else if (percentage >= 32) index = 2;
+      else if (percentage >= 16) index = 1;
+      else index = 0;
+
+      portrait.src = `maingameimages/${portraits[index]}`;
+      percentText.textContent = `천국으로 가기까지 ${percentage}%`;
+    }
+
+    function increasePercentage() {
+      if (percentage < 99) {
+        percentage += 8;
+        if (percentage > 99) percentage = 99;
+        updatePortrait();
+      }
+    }
+
+    document.getElementById('like-button').addEventListener('click', increasePercentage);
+    document.getElementById('send-button').addEventListener('click', increasePercentage);
+  </script>
+
+</body>
+</html>
