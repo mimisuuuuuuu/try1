@@ -5,6 +5,7 @@
   <title>하늘나라 보내주기 대작전 - 게임화면</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     html, body {
       width: 100vw;
       height: 100vh;
@@ -12,7 +13,7 @@
     }
 
     body {
-      background: url('maingameimages/maingame.png') no-repeat center center;
+      background: url('maingame.png') no-repeat center center;
       background-size: cover;
       position: relative;
       font-family: 'Arial', sans-serif;
@@ -55,17 +56,10 @@
 </head>
 <body>
 
-  <!-- 영정사진 -->
-  <img id="portrait" src="maingameimages/portrait1.png" alt="영정사진">
-
-  <!-- 퍼센트 텍스트 -->
+  <img id="portrait" src="portrait1.png" alt="영정사진">
+  <img id="send-button" src="send.png" alt="전송">
+  <img id="like-button" src="like.png" alt="좋아요">
   <div id="percent-text">천국으로 가기까지 0%</div>
-
-  <!-- 전송 버튼 -->
-  <img id="send-button" src="maingameimages/send.png" alt="전송">
-
-  <!-- 좋아요 버튼 -->
-  <img id="like-button" src="maingameimages/like.png" alt="좋아요">
 
   <script>
     let percentage = 0;
@@ -86,7 +80,7 @@
       else if (percentage >= 16) index = 1;
       else index = 0;
 
-      portrait.src = `maingameimages/${portraits[index]}`;
+      portrait.src = portraits[index];
       percentText.textContent = `천국으로 가기까지 ${percentage}%`;
     }
 
