@@ -44,7 +44,6 @@
     #btn-how { top: 73%; left: 10%; width: 350px; }
     #btn-start2 { bottom: 30px; right: 40px; width: 220px; }
 
-    /* Game Page Style */
     #game-page {
       background: url('window.webp') no-repeat center center fixed;
       background-size: cover;
@@ -52,13 +51,13 @@
     }
 
     #game-page .container {
-      position: relative; 
+      position: relative;
       width: 70vw;
       max-width: 1100px;
       margin: 0 auto;
       top: 48%;
       transform: translateY(-50%);
- 
+    }
 
     #game-bg {
       width: 100%;
@@ -66,33 +65,30 @@
       display: block;
     }
 
-   #portrait {
-  position: absolute;
-  top: 18.5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40%;
-  z-index: 2;
-}
+    #portrait {
+      position: absolute;
+      top: 18.5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40%;
+      z-index: 2;
+    }
 
+    #send-button {
+      position: absolute;
+      bottom: 0.7%;
+      right: 11%;
+      width: 23%;
+      cursor: pointer;
+    }
 
-   #send-button {
-  position: absolute;
-  bottom: 0.7%;
-  right: 11%;
-  width: 23%;
-  cursor: pointer;
-}
-
-
-  #like-button {
-  position: absolute;
-  bottom: -3%;
-  right: -3.5%;
-  width: 30%;
-  cursor: pointer;
-}
-
+    #like-button {
+      position: absolute;
+      bottom: -3%;
+      right: -3.5%;
+      width: 30%;
+      cursor: pointer;
+    }
 
     #percent-text {
       position: absolute;
@@ -105,6 +101,44 @@
       z-index: 5;
     }
 
+    #user-input {
+      position: absolute;
+      bottom: 2.5%;
+      left: 22%;
+      width: 45%;
+      height: 40px;
+      font-size: 16px;
+      border-radius: 8px;
+      padding: 5px 10px;
+      border: none;
+    }
+
+    #text-log {
+      position: absolute;
+      top: 46%;
+      right: 4.2%;
+      width: 23%;
+      height: 28%;
+      overflow-y: auto;
+      font-size: 14px;
+      color: #fff;
+      padding: 10px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 8px;
+    }
+
+    .floating-heart {
+      position: absolute;
+      animation: floatUp 2s ease-out forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-150px); opacity: 0; }
+    }
+
     @media (max-width: 768px) {
       .container { width: 90vw; }
       #btn-start, #btn-how, #btn-start2 { width: 180px; }
@@ -113,7 +147,6 @@
 </head>
 <body>
 
-  <!-- 메인 페이지 -->
   <div id="main-page" class="page active">
     <div class="container">
       <img src="first.jpg" alt="메인 이미지" class="page-img">
@@ -122,7 +155,6 @@
     </div>
   </div>
 
-  <!-- 게임 방법 페이지 -->
   <div id="how-page" class="page">
     <div class="container">
       <img src="howtoplay_image.jpg" alt="게임 방법 이미지" class="page-img">
@@ -130,14 +162,15 @@
     </div>
   </div>
 
-  <!-- 게임 플레이 페이지 -->
   <div id="game-page" class="page">
     <div class="container">
       <img id="game-bg" src="maingame.png" alt="게임 배경">
       <img id="portrait" src="portrait1.png" alt="영정사진">
       <img id="send-button" src="send.png" alt="전송">
       <img id="like-button" src="like.png" alt="좋아요">
-      <div id="percent-text">  0%</div>
+      <input id="user-input" type="text" placeholder="추모의 한 마디를 입력하세요">
+      <div id="text-log"></div>
+      <div id="percent-text">0%</div>
     </div>
   </div>
 
@@ -162,7 +195,7 @@
       else if (percentage >= 16) index = 1;
       else index = 0;
       portrait.src = portraits[index];
-      percentText.textContent = ` ${percentage}%`;
+      percentText.textContent = `${percentage}%`;
     }
 
     function increasePercentage() {
@@ -173,8 +206,34 @@
       }
     }
 
-    document.getElementById('like-button').addEventListener('click', increasePercentage);
-    document.getElementById('send-button').addEventListener('click', increasePercentage);
+    document.getElementById('like-button').addEventListener('click', () => {
+      for (let i = 0; i < 10; i++) spawnHeart();
+      increasePercentage();
+    });
+
+    document.getElementById('send-button').addEventListener('click', () => {
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+      if (text) {
+        const entry = document.createElement('div');
+        entry.textContent = text;
+        document.getElementById('text-log').appendChild(entry);
+        input.value = '';
+        increasePercentage();
+      }
+    });
+
+    function spawnHeart() {
+      const heart = document.createElement('span');
+      heart.className = 'floating-heart';
+      heart.textContent = '❤️';
+      heart.style.left = Math.random() * 90 + '%';
+      heart.style.bottom = '10%';
+      heart.style.fontSize = (Math.random() * 24 + 16) + 'px';
+      heart.style.position = 'absolute';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }
 
     function enterFullscreen() {
       if (!document.fullscreenElement) {
@@ -213,4 +272,3 @@
   </script>
 </body>
 </html>
-
