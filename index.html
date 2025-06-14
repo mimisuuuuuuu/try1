@@ -36,7 +36,7 @@
 
     .container {
       position: relative;
-      width: 70vw;  /* 이미지 크기 키움 */
+      width: 70vw;
       max-width: 1100px;
     }
 
@@ -109,22 +109,24 @@
     const mainPage = document.getElementById('main-page');
     const howPage = document.getElementById('how-page');
 
-    document.getElementById('btn-start').addEventListener('click', () => {
-      window.location.href = "game.html";
-    });
-
-    document.getElementById('btn-how').addEventListener('click', () => {
-      mainPage.classList.remove('active');
-      howPage.classList.add('active');
-    });
-
-    // 전체화면 진입
-    mainPage.addEventListener('click', () => {
+    function startGame() {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(err => {
           console.warn(`전체화면 전환 실패: ${err.message}`);
         });
       }
+      // 약간 딜레이 주고 넘어가게 하면 fullscreen 자연스러움
+      setTimeout(() => {
+        window.location.href = "game.html";
+      }, 300); 
+    }
+
+    document.getElementById('btn-start').addEventListener('click', startGame);
+    document.getElementById('btn-start2').addEventListener('click', startGame);
+
+    document.getElementById('btn-how').addEventListener('click', () => {
+      mainPage.classList.remove('active');
+      howPage.classList.add('active');
     });
   </script>
 
