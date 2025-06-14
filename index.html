@@ -2,20 +2,56 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>하늘나라 보내주기 대작전 - 게임화면</title>
+  <title>하늘나라 보내주기 대작전</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html, body {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+      width: 100%; height: 100%; overflow: hidden;
+      cursor: default;
       background: url('window.webp') no-repeat center center fixed;
       background-size: cover;
-      cursor: default;
+      font-family: 'Arial', sans-serif;
     }
 
+    .page {
+      width: 100vw; height: 100vh;
+      position: absolute; top: 0; left: 0;
+      display: none; justify-content: center; align-items: center;
+    }
+
+    .active { display: flex !important; }
+
     .container {
+      position: relative;
+      width: 70vw; max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .page-img {
+      width: 100%; height: auto; display: block;
+    }
+
+    .button {
+      position: absolute; cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.08); filter: brightness(1.2);
+    }
+
+    #btn-start { top: 58%; left: 10%; width: 350px; }
+    #btn-how { top: 73%; left: 10%; width: 350px; }
+    #btn-start2 { bottom: 30px; right: 40px; width: 220px; }
+
+    /* Game Page Style */
+    #game-page {
+      background: url('window.webp') no-repeat center center fixed;
+      background-size: cover;
+      z-index: 2;
+    }
+
+    #game-page .container {
       position: relative;
       width: 70vw;
       max-width: 1100px;
@@ -64,20 +100,48 @@
       text-shadow: 1px 1px 2px black;
       z-index: 5;
     }
+
+    @media (max-width: 768px) {
+      .container { width: 90vw; }
+      #btn-start, #btn-how, #btn-start2 { width: 180px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img id="game-bg" src="maingame.png" alt="게임 배경">
-    <img id="portrait" src="portrait1.png" alt="영정사진">
-    <img id="send-button" src="send.png" alt="전송">
-    <img id="like-button" src="like.png" alt="좋아요">
-    <div id="percent-text">천국으로 가기까지 0%</div>
+
+  <!-- 메인 페이지 -->
+  <div id="main-page" class="page active">
+    <div class="container">
+      <img src="first.jpg" alt="메인 이미지" class="page-img">
+      <img src="gamestart.png" id="btn-start" class="button" alt="게임 시작">
+      <img src="gamehow.png" id="btn-how" class="button" alt="게임 방법">
+    </div>
+  </div>
+
+  <!-- 게임 방법 페이지 -->
+  <div id="how-page" class="page">
+    <div class="container">
+      <img src="howtoplay_image.jpg" alt="게임 방법 이미지" class="page-img">
+      <img src="gamestart2.png" id="btn-start2" class="button" alt="게임 시작">
+    </div>
+  </div>
+
+  <!-- 게임 플레이 페이지 -->
+  <div id="game-page" class="page">
+    <div class="container">
+      <img id="game-bg" src="maingame.png" alt="게임 배경">
+      <img id="portrait" src="portrait1.png" alt="영정사진">
+      <img id="send-button" src="send.png" alt="전송">
+      <img id="like-button" src="like.png" alt="좋아요">
+      <div id="percent-text">천국으로 가기까지 0%</div>
+    </div>
   </div>
 
   <script>
     let percentage = 0;
-
+    const mainPage = document.getElementById('main-page');
+    const howPage = document.getElementById('how-page');
+    const gamePage = document.getElementById('game-page');
     const portrait = document.getElementById('portrait');
     const percentText = document.getElementById('percent-text');
     const portraits = [
@@ -93,7 +157,6 @@
       else if (percentage >= 32) index = 2;
       else if (percentage >= 16) index = 1;
       else index = 0;
-
       portrait.src = portraits[index];
       percentText.textContent = `천국으로 가기까지 ${percentage}%`;
     }
@@ -108,11 +171,42 @@
 
     document.getElementById('like-button').addEventListener('click', increasePercentage);
     document.getElementById('send-button').addEventListener('click', increasePercentage);
-  </script>
-</body>
-</html>
+
+    function enterFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn(`전체화면 전환 실패: ${err.message}`);
+        });
+      }
+    }
+
+    function keepFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      }
+    }
+
+    document.addEventListener('fullscreenchange', keepFullscreen);
+
+    document.getElementById('btn-start').addEventListener('click', () => {
+      enterFullscreen();
+      mainPage.classList.remove('active');
+      gamePage.classList.add('active');
+    });
+
+    document.getElementById('btn-how').addEventListener('click', () => {
+      mainPage.classList.remove('active');
+      howPage.classList.add('active');
+    });
+
+    document.getElementById('btn-start2').addEventListener('click', () => {
+      enterFullscreen();
+      howPage.classList.remove('active');
+      gamePage.classList.add('active');
+    });
 
     mainPage.addEventListener('click', enterFullscreen);
   </script>
 </body>
 </html>
+
