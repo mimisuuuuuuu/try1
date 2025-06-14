@@ -10,18 +10,29 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
+      background: url('window.webp') no-repeat center center fixed;
+      background-size: cover;
+      cursor: default;
     }
 
-    body {
-      background: url('maingame.png') no-repeat center center;
-      background-size: cover;
+    .container {
       position: relative;
-      font-family: 'Arial', sans-serif;
+      width: 70vw;
+      max-width: 1100px;
+      margin: 0 auto;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    #game-bg {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     #portrait {
       position: absolute;
-      top: 18.8%;
+      top: 26.8%;
       left: 39.3%;
       width: 21%;
       z-index: 2;
@@ -29,7 +40,7 @@
 
     #send-button {
       position: absolute;
-      bottom: 9.2%;
+      bottom: 10.2%;
       right: 20.3%;
       width: 6%;
       cursor: pointer;
@@ -37,7 +48,7 @@
 
     #like-button {
       position: absolute;
-      bottom: 8.8%;
+      bottom: 9.8%;
       right: 8%;
       width: 6%;
       cursor: pointer;
@@ -51,15 +62,18 @@
       color: #fff;
       font-weight: bold;
       text-shadow: 1px 1px 2px black;
+      z-index: 5;
     }
   </style>
 </head>
 <body>
-
-  <img id="portrait" src="portrait1.png" alt="영정사진">
-  <img id="send-button" src="send.png" alt="전송">
-  <img id="like-button" src="like.png" alt="좋아요">
-  <div id="percent-text">천국으로 가기까지 0%</div>
+  <div class="container">
+    <img id="game-bg" src="maingame.png" alt="게임 배경">
+    <img id="portrait" src="portrait1.png" alt="영정사진">
+    <img id="send-button" src="send.png" alt="전송">
+    <img id="like-button" src="like.png" alt="좋아요">
+    <div id="percent-text">천국으로 가기까지 0%</div>
+  </div>
 
   <script>
     let percentage = 0;
@@ -95,6 +109,5 @@
     document.getElementById('like-button').addEventListener('click', increasePercentage);
     document.getElementById('send-button').addEventListener('click', increasePercentage);
   </script>
-
 </body>
 </html>
