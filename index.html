@@ -143,16 +143,58 @@
       "portrait4.png", "portrait5.png", "portrait6.png"
     ];
 
-    function updatePortrait() {
-      let index = 0;
-      if (percentage >= 80) index = 5;
-      else if (percentage >= 64) index = 4;
-      else if (percentage >= 48) index = 3;
-      else if (percentage >= 32) index = 2;
-      else if (percentage >= 16) index = 1;
-      portrait.src = portraits[index];
-      percentText.textContent = `${percentage}%`;
-    }
+  function updatePortrait() {
+  let index = 0;
+  if (percentage >= 80) {
+    index = 5;
+    portrait.src = portraits[index];
+    percentText.textContent = `${percentage}%`;
+
+    // 2초 뒤 last.message.png 표시
+    setTimeout(() => {
+      portrait.src = "last.message.jpg";
+
+      // 다시 3초 뒤 배경 전환 + 웹캠 표시
+      setTimeout(() => {
+        document.getElementById('game-bg').src = "last.image";
+        portrait.style.display = 'none';
+
+        // 웹캠 비디오 요소 추가
+        const video = document.createElement('video');
+        video.setAttribute('autoplay', true);
+        video.setAttribute('playsinline', true);  // 모바일 대응
+        video.style.position = 'absolute';
+        video.style.top = '18.5%';
+        video.style.left = '50%';
+        video.style.transform = 'translateX(-50%)';
+        video.style.width = '40%';
+        video.style.zIndex = 3;
+        video.id = 'webcam-feed';
+        document.querySelector('#game-page .container').appendChild(video);
+
+        // 웹캠 접근
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            video.srcObject = stream;
+          })
+          .catch(err => {
+            console.error("웹캠 접근 실패:", err);
+          });
+
+      }, 3000);
+    }, 2000);
+  } else if (percentage >= 64) index = 4;
+  else if (percentage >= 48) index = 3;
+  else if (percentage >= 32) index = 2;
+  else if (percentage >= 16) index = 1;
+  else index = 0;
+
+  // 80% 미만일 때만 초상 이미지 갱신
+  if (percentage < 80) {
+    portrait.src = portraits[index];
+    percentText.textContent = `${percentage}%`;
+  }
+}
 
     function increasePercentage() {
       if (percentage < 99) {
@@ -228,169 +270,3 @@
   </script>
 </body>
 </html>
-    #user-input {
-      position: absolute;
-      bottom: 2.5%; left: 22%;
-      width: 45%; height: 40px;
-      font-size: 16px;
-      border-radius: 8px;
-      padding: 5px 10px;
-      border: none;
-    }
-
-    #text-log {
-      position: absolute;
-      top: 46%; right: 4.2%;
-      width: 23%; height: 28%;
-      overflow-y: auto;
-      font-size: 14px;
-      color: #fff;
-      padding: 10px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 8px;
-    }
-
-    .floating-heart {
-      position: absolute;
-      animation: floatUp 2.2s ease-out forwards;
-      pointer-events: none;
-      z-index: 999;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-180px); opacity: 0; }
-    }
-
-    @media (max-width: 768px) {
-      .container { width: 90vw; }
-      #btn-start, #btn-how, #btn-start2 { width: 180px; }
-    }
-  </style>
-</head>
-<body>
-
-  <div id="main-page" class="page active">
-    <div class="container">
-      <img src="first.jpg" alt="메인 이미지" class="page-img">
-      <img src="gamestart.png" id="btn-start" class="button" alt="게임 시작">
-      <img src="gamehow.png" id="btn-how" class="button" alt="게임 방법">
-    </div>
-  </div>
-
-  <div id="how-page" class="page">
-    <div class="container">
-      <img src="howtoplay_image.jpg" alt="게임 방법 이미지" class="page-img">
-      <img src="gamestart2.png" id="btn-start2" class="button" alt="게임 시작">
-    </div>
-  </div>
-
-  <div id="game-page" class="page">
-    <div class="container">
-      <img id="game-bg" src="maingame.png" alt="게임 배경">
-      <img id="portrait" src="portrait1.png" alt="영정사진">
-      <img id="send-button" src="send.png" alt="전송">
-      <img id="like-button" src="like.png" alt="좋아요">
-      <input id="user-input" type="text" placeholder="추모의 한 마디를 입력하세요">
-      <div id="text-log"></div>
-      <div id="percent-text">0%</div>
-    </div>
-  </div>
-<script>
-  let percentage = 0;
-  const mainPage = document.getElementById('main-page');
-  const howPage = document.getElementById('how-page');
-  const gamePage = document.getElementById('game-page');
-  const portrait = document.getElementById('portrait');
-  const percentText = document.getElementById('percent-text');
-  const input = document.getElementById('user-input');
-  const textLog = document.getElementById('text-log');
-  const portraits = [
-    "portrait1.png", "portrait2.png", "portrait3.png",
-    "portrait4.png", "portrait5.png", "portrait6.png"
-  ];
-
-  function updatePortrait() {
-    let index = 0;
-    if (percentage >= 80) index = 5;
-    else if (percentage >= 64) index = 4;
-    else if (percentage >= 48) index = 3;
-    else if (percentage >= 32) index = 2;
-    else if (percentage >= 16) index = 1;
-    portrait.src = portraits[index];
-    percentText.textContent = `${percentage}%`;
-  }
-
-  function increasePercentage() {
-    if (percentage < 99) {
-      percentage += 8;
-      if (percentage > 99) percentage = 99;
-      updatePortrait();
-    }
-  }
-
-  function spawnHeart() {
-    for (let i = 0; i < 15; i++) {
-      const heart = document.createElement('span');
-      heart.className = 'floating-heart';
-      heart.textContent = '❤️';
-      heart.style.left = Math.random() * 90 + '%';
-      heart.style.bottom = (Math.random() * 10 + 5) + '%';
-      heart.style.fontSize = (Math.random() * 30 + 16) + 'px';
-      heart.style.position = 'absolute';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 2200);
-    }
-  }
-
-  document.getElementById('like-button').addEventListener('click', () => {
-    spawnHeart();
-    increasePercentage();
-  });
-
-  document.getElementById('send-button').addEventListener('click', () => {
-    const text = input.value.trim();
-    if (text) {
-      const entry = document.createElement('div');
-      entry.textContent = text;
-      textLog.appendChild(entry);
-      input.value = '';
-      increasePercentage();
-    }
-  });
-
-  function enterFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(err => {
-        console.warn(`전체화면 전환 실패: ${err.message}`);
-      });
-    }
-  }
-
-  function keepFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    }
-  }
-
-  document.addEventListener('fullscreenchange', keepFullscreen);
-
-  document.getElementById('btn-start').addEventListener('click', () => {
-    enterFullscreen();
-    mainPage.classList.remove('active');
-    gamePage.classList.add('active');
-  });
-
-  document.getElementById('btn-how').addEventListener('click', () => {
-    mainPage.classList.remove('active');
-    howPage.classList.add('active');
-  });
-
-  document.getElementById('btn-start2').addEventListener('click', () => {
-    enterFullscreen();
-    howPage.classList.remove('active');
-    gamePage.classList.add('active');
-  });
-
-  mainPage.addEventListener('click', enterFullscreen);
-</script>
