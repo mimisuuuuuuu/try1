@@ -83,7 +83,7 @@
   padding: 10px;
   background: transparent; /* 배경 없애서 회색 박스 보이게 */
   border-radius: 8px;
-  z-index: 3;
+  z-index: 999;
 }
 
     .floating-heart {
@@ -213,10 +213,12 @@
     const entry = document.createElement('div');
     entry.textContent = text;
     log.appendChild(entry);
+    console.log("추가된 텍스트 div:", entry);
     input.value = '';
     increasePercentage();
   }
 });
+console.log("log 요소 확인:", log);
 
 
     function spawnHeart() {
