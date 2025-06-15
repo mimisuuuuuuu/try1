@@ -55,8 +55,8 @@
     }
     #percent-text {
   position: absolute;
-  top: 39%; right: 8%;
-  font-size: 2.8rem; /* 더 크게 */
+  top: 39%; right: 10%;
+  font-size: 1.8rem; /* 더 크게 */
   color: white;
   font-weight: bold;
   text-shadow: 
@@ -87,6 +87,8 @@
       background: transparent;
       border-radius: 8px;
       z-index: 999;
+        overflow: visible;     /* ✅ 스크롤 제거 */
+  max-height: none; 
     }
     .floating-heart {
       position: absolute;
