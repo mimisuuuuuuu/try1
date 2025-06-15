@@ -199,17 +199,20 @@
       increasePercentage();
     });
 
-    document.getElementById('send-button').addEventListener('click', () => {
-      const input = document.getElementById('user-input');
-      const text = input.value.trim();
-      if (text) {
-        const entry = document.createElement('div');
-        entry.textContent = text;
-        document.getElementById('text-log').appendChild(entry);
-        input.value = '';
-        increasePercentage();
-      }
-    });
+   document.getElementById('send-button').addEventListener('click', () => {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+
+  if (text) {
+    const log = document.getElementById('text-log');
+    const entry = document.createElement('div');
+    entry.textContent = text;
+    log.appendChild(entry);
+    input.value = '';
+    increasePercentage();
+  }
+});
+
 
     function spawnHeart() {
       const heart = document.createElement('span');
