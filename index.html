@@ -207,19 +207,17 @@
    document.getElementById('send-button').addEventListener('click', () => {
   const input = document.getElementById('user-input');
   const text = input.value.trim();
+  const textLog = document.getElementById('text-log');  // ✅ 이 부분 중요!
 
   if (text) {
-    const log = document.getElementById('text-log');
     const entry = document.createElement('div');
     entry.textContent = text;
-    log.appendChild(entry);
-    console.log("추가된 텍스트 div:", entry);
+    textLog.appendChild(entry);
+    console.log("✅ 텍스트가 기록됨:", text);
     input.value = '';
     increasePercentage();
   }
 });
-console.log("log 요소 확인:", log);
-
 
     function spawnHeart() {
       const heart = document.createElement('span');
