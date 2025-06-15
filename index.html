@@ -71,17 +71,21 @@
       padding: 5px 10px;
       border: none;
     }
-    #text-log {
-      position: absolute;
-      top: 46%; right: 4.2%;
-      width: 23%; height: 28%;
-      overflow-y: auto;
-      font-size: 14px;
-      color: #fff;
-      padding: 10px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 8px;
-    }
+   #text-log {
+  position: absolute;
+  top: 34.5%;   /* 🔧 회색 박스와 일치하는 위치 */
+  right: 9.2%;  /* 🔧 박스 좌표에 맞게 조정 */
+  width: 180px; /* 적당히 박스 너비에 맞춤 */
+  height: 120px;
+  overflow-y: auto;
+  font-size: 14px;
+  color: black; /* 가독성 위해 검정색 */
+  padding: 10px;
+  background: transparent; /* 배경 없애서 회색 박스 보이게 */
+  border-radius: 8px;
+  z-index: 3;
+}
+
     .floating-heart {
       position: absolute;
       animation: floatUp 2s ease-out forwards;
