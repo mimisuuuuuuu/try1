@@ -145,6 +145,50 @@
   </div>
 
   <script>
+    function blinkWebcam(videoElement) {
+  let blinkCount = 0;
+  const blinkInterval = setInterval(() => {
+    if (blinkCount >= 6) {
+      clearInterval(blinkInterval);
+      videoElement.style.opacity = 1;
+    } else {
+      videoElement.style.opacity = (blinkCount % 2 === 0) ? 0.2 : 1;
+      blinkCount++;
+    }
+  }, 300);
+}
+  function showGlitches() {
+    const glitchContainer = document.getElementById('glitch-container');
+   glitchContainer.innerHTML = '';
+    const glitchStrings = [
+      "66666666666666", "dddddddddddddd", "&&dd$!*@d^SYSTEM@!#!@666@66",
+      "d$CRASHERROR&666CRASHd&FATALSYSTEMSYSTEM$d%",
+      "ERROR$$##FATAL6%xFATAL*%!%", "@$6%@@^!CRASH#6^",
+      "FATALCRASHERROR^&*d"
+    ];
+
+    let glitchCount = 0;
+    const glitchInterval = setInterval(() => {
+      if (glitchCount >= 6) {
+        clearInterval(glitchInterval);
+        return;
+      }
+
+      const glitch = document.createElement('div');
+      glitch.className = 'error-glitch';
+      glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
+      glitch.style.position = 'absolute';
+      glitch.style.color = 'red';
+      glitch.style.fontWeight = 'bold';
+      glitch.style.top = `${Math.random() * 90}%`;
+      glitch.style.left = `${Math.random() * 90}%`; // 무작위 수평 위치
+      glitch.style.transform = `rotate(0deg)`; // 각도 제거
+      glitch.style.zIndex = 800; // 웹캠(z-index: 900 이상) 아래로
+      glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
+      glitchContainer.appendChild(glitch);
+      glitchCount++;
+    }, 300);
+  }
 window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
   document.getElementById('btn-start').addEventListener('click', () => {
     document.getElementById('main-page').classList.remove('active');
@@ -283,60 +327,59 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
   }
 
   function triggerBurnSequence() {
-    setTimeout(() => {
-      const fire = document.createElement('img');
-      fire.src = 'fire.png';
-      fire.style.position = 'absolute';
-      fire.style.top = 'calc(18.5% + 40%)'; // 웹캠 아래로 이동
-      fire.style.left = '50%';
-      fire.style.transform = 'translateX(-50%)';
-      fire.style.zIndex = 1005;
-     fire.style.width = '100vw';
-     fire.style.height = '100vh';
-     fire.style.objectFit = 'cover'; // 화면 전체 덮음
+  setTimeout(() => {
+    const fire = document.createElement('img');
+    fire.src = 'fire.png';
+    fire.style.position = 'absolute';
+    fire.style.top = 'calc(18.5% + 40%)';
+    fire.style.left = '50%';
+    fire.style.transform = 'translateX(-50%)';
+    fire.style.zIndex = 1005;
+    fire.style.width = '100vw';
+    fire.style.height = '100vh';
+    fire.style.objectFit = 'cover';
+    document.querySelector('#game-page .container').appendChild(fire);
+  }, 10000);
 
-      document.querySelector('#game-page .container').appendChild(fire);
-    }, 10000);
+  setTimeout(() => {
+    const darkOverlay = document.getElementById('dark-overlay');
+    if (darkOverlay) {
+      darkOverlay.style.zIndex = 900;
+      darkOverlay.style.opacity = 0.2;
+      darkOverlay.style.transition = 'opacity 5s ease';
+      setTimeout(() => {
+        darkOverlay.style.opacity = 0.8;
+      }, 7000);
 
-   setTimeout(() => {
-  const darkOverlay = document.getElementById('dark-overlay');
-  if (darkOverlay) {
-    darkOverlay.style.zIndex = 900;
-    darkOverlay.style.opacity = 0.2;
-darkOverlay.style.transition = 'opacity 5s ease';
-setTimeout(() => {
-  darkOverlay.style.opacity = 0.8;
-}, 7000);
+      setTimeout(() => {
+        const dieImg = document.createElement('img');
+        dieImg.src = 'die.jpg';
+        dieImg.style.position = 'absolute';
+        dieImg.style.top = '50%';
+        dieImg.style.left = '50%';
+        dieImg.style.transform = 'translate(-50%, -50%)';
+        dieImg.className = 'fullscreen-img';
+        dieImg.style.zIndex = 1001;
+        document.body.appendChild(dieImg);
+      }, 15000);
 
+      setTimeout(() => {
+        const blueImg = document.createElement('img');
+        blueImg.src = 'blue.jpg';
+        blueImg.style.position = 'absolute';
+        blueImg.style.top = '50%';
+        blueImg.style.left = '50%';
+        blueImg.style.transform = 'translate(-50%, -50%)';
+        blueImg.className = 'fullscreen-img';
+        blueImg.style.zIndex = 1002;
+        document.body.appendChild(blueImg);
+      }, 23000);
 
-    setTimeout(() => {
-      const dieImg = document.createElement('img');
-      dieImg.src = 'die.jpg';
-      dieImg.style.position = 'absolute';
-      dieImg.style.top = '50%';
-      dieImg.style.left = '50%';
-      dieImg.style.transform = 'translate(-50%, -50%)';
-      dieImg.className = 'fullscreen-img';
-      dieImg.style.zIndex = 1001;
-      document.body.appendChild(dieImg);
-    }, 15000);
-
-    setTimeout(() => {
-      const blueImg = document.createElement('img');
-      blueImg.src = 'blue.jpg';
-      blueImg.style.position = 'absolute';
-      blueImg.style.top = '50%';
-      blueImg.style.left = '50%';
-      blueImg.style.transform = 'translate(-50%, -50%)';
-      blueImg.className = 'fullscreen-img';
-      blueImg.style.zIndex = 1002;
-      document.body.appendChild(blueImg);
-    }, 23000);
-
-    setTimeout(() => {
-      location.reload();
-    }, 30000);
-  }
+      setTimeout(() => {
+        location.reload();
+      }, 30000);
+    }
+  }, 10000);
 
   const fireStyle = document.createElement('style');
   fireStyle.innerHTML = `
@@ -345,52 +388,8 @@ setTimeout(() => {
       50% { transform: translateX(-50%) scale(1.3); opacity: 0.8; }
     }`;
   document.head.appendChild(fireStyle);
-     
-function blinkWebcam(videoElement) {
-  let blinkCount = 0;
-  const blinkInterval = setInterval(() => {
-    if (blinkCount >= 6) {
-      clearInterval(blinkInterval);
-      videoElement.style.opacity = 1;
-    } else {
-      videoElement.style.opacity = (blinkCount % 2 === 0) ? 0.2 : 1;
-      blinkCount++;
-    }
-  }, 300);
-}
-  function showGlitches() {
-    const glitchContainer = document.getElementById('glitch-container');
-   glitchContainer.innerHTML = '';
-    const glitchStrings = [
-      "66666666666666", "dddddddddddddd", "&&dd$!*@d^SYSTEM@!#!@666@66",
-      "d$CRASHERROR&666CRASHd&FATALSYSTEMSYSTEM$d%",
-      "ERROR$$##FATAL6%xFATAL*%!%", "@$6%@@^!CRASH#6^",
-      "FATALCRASHERROR^&*d"
-    ];
+} // ✅ 여기서 진짜 끝남
 
-    let glitchCount = 0;
-    const glitchInterval = setInterval(() => {
-      if (glitchCount >= 6) {
-        clearInterval(glitchInterval);
-        return;
-      }
-
-      const glitch = document.createElement('div');
-      glitch.className = 'error-glitch';
-      glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
-      glitch.style.position = 'absolute';
-      glitch.style.color = 'red';
-      glitch.style.fontWeight = 'bold';
-      glitch.style.top = `${Math.random() * 90}%`;
-      glitch.style.left = `${Math.random() * 90}%`; // 무작위 수평 위치
-      glitch.style.transform = `rotate(0deg)`; // 각도 제거
-      glitch.style.zIndex = 800; // 웹캠(z-index: 900 이상) 아래로
-      glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
-      glitchContainer.appendChild(glitch);
-      glitchCount++;
-    }, 300);
-  }
-});
 </script>
 
     <div id="dark-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:black; opacity:0.5; z-index:800;"></div>
