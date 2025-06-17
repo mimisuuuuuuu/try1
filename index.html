@@ -319,7 +319,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function enterFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(err => {
-        console.warn(\`전체화면 전환 실패: \${err.message}\`);
+        console.warn(`전체화면 전환 실패: ${err.message}`);
       });
     }
   }
@@ -347,7 +347,7 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-</body>
-  <div id="dark-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:black; opacity:0.5; z-index:800;"></div>
+    <div id="dark-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:black; opacity:0.5; z-index:800;"></div>
 <div id="glitch-container"></div>
+</body>
 </html>
