@@ -106,7 +106,8 @@
     }
   </style>
 </head>
-<body>
+<body onclick="enterFullscreen()">
+
 
   <div id="main-page" class="page active">
     <div class="container">
@@ -154,7 +155,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
       setTimeout(() => {
         portrait.src = "last.message.png";
-        document.getElementById('dark-overlay').style.display = 'block';
+document.getElementById('dark-overlay').style.display = 'block';
+// 추가
+document.getElementById('dark-overlay').style.zIndex = 1; // 배경 아래로
+portrait.style.zIndex = 9999; // 이미지 위로
+
 
         setTimeout(() => {
           document.getElementById('game-bg').src = "last.image.jpg";
@@ -186,19 +191,35 @@ window.addEventListener('DOMContentLoaded', () => {
               console.error("웹캠 실패:", err);
             });
 
-          const glitchContainer = document.getElementById('glitch-container');
-          for (let i = 0; i < 20; i++) {
-            const glitch = document.createElement('div');
-            glitch.className = 'error-glitch';
-            glitch.textContent = (Math.random() > 0.5 ? '66666666666666' : 'dddddddddddddd');
-            glitch.style.position = 'absolute';
-            glitch.style.color = 'red';
-            glitch.style.fontWeight = 'bold';
-            glitch.style.zIndex = 1000;
-            glitch.style.top = `${Math.random() * 90}%`;
-            glitch.style.left = `${Math.random() * 90}%`;
-            glitchContainer.appendChild(glitch);
-          }
+         const glitchContainer = document.getElementById('glitch-container');
+const glitchStrings = [
+  "66666666666666", "dddddddddddddd", "&&dd$!*@d^SYSTEM@!#!@666@66",
+  "d$CRASHERROR&666CRASHd&FATALSYSTEMSYSTEM$d%",
+  "CRASH&d6*d!**666$%CRASH&CRASHSYSTEM!", 
+  "FATAL@%666*666SYSTEM*ERRORSYSTEM", 
+  "ERROR$$##FATAL6%xFATAL*%!%", "@$6%@@^!CRASH#6^", 
+  "FATALCRASHERROR^&*d"
+];
+
+let glitchCount = 0;
+const glitchInterval = setInterval(() => {
+  if (glitchCount >= 30) {
+    clearInterval(glitchInterval);
+    return;
+  }
+  const glitch = document.createElement('div');
+  glitch.className = 'error-glitch';
+  glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
+  glitch.style.position = 'absolute';
+  glitch.style.color = 'red';
+  glitch.style.fontWeight = 'bold';
+  glitch.style.zIndex = 1000;
+  glitch.style.top = `${Math.random() * 90}%`;
+  glitch.style.left = `${Math.random() * 90}%`;
+  glitchContainer.appendChild(glitch);
+  glitchCount++;
+}, 500);
+
 
         }, 3000);
       }, 2000);
@@ -253,16 +274,19 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function triggerBurnSequence() {
-    const fire = document.createElement('img');
-    fire.src = 'fire.png';
-    fire.style.position = 'absolute';
-    fire.style.bottom = '5%';
-    fire.style.left = '50%';
-    fire.style.transform = 'translateX(-50%)';
-    fire.style.zIndex = 1000;
-    fire.style.width = '200px';
-    fire.style.animation = 'firePulse 1s infinite ease-in-out';
-    document.querySelector('#game-page .container').appendChild(fire);
+    setTimeout(() => {
+  const fire = document.createElement('img');
+  fire.src = 'fire.png';
+  fire.style.position = 'absolute';
+  fire.style.bottom = '5%';
+  fire.style.left = '50%';
+  fire.style.transform = 'translateX(-50%)';
+  fire.style.zIndex = 1000;
+  fire.style.width = '200px';
+  fire.style.animation = 'firePulse 1s infinite ease-in-out';
+  document.querySelector('#game-page .container').appendChild(fire);
+}, 10000); // 웹캠 전환 후 10초 뒤에 등장
+
 
     const darkOverlay = document.createElement('div');
     darkOverlay.style.position = 'absolute';
@@ -279,29 +303,33 @@ window.addEventListener('DOMContentLoaded', () => {
       darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
     }, 100);
 
-    setTimeout(() => {
-      const dieImg = document.createElement('img');
-      dieImg.src = 'die.jpg';
-      dieImg.style.position = 'absolute';
-      dieImg.style.top = '50%';
-      dieImg.style.left = '50%';
-      dieImg.style.transform = 'translate(-50%, -50%)';
-      dieImg.style.width = '60%';
-      dieImg.style.zIndex = 1001;
-      document.body.appendChild(dieImg);
-    }, 3000);
+      setTimeout(() => {
+  const dieImg = document.createElement('img');
+  dieImg.src = 'die.jpg';
+  dieImg.style.position = 'absolute';
+  dieImg.style.top = '50%';
+  dieImg.style.left = '50%';
+  dieImg.style.transform = 'translate(-50%, -50%)';
+  dieImg.style.width = '100%';
+dieImg.style.height = '100%';
+dieImg.style.objectFit = 'cover';
+  dieImg.style.zIndex = 1001;
+  document.body.appendChild(dieImg);
+}, 15000);
 
     setTimeout(() => {
-      const blueImg = document.createElement('img');
-      blueImg.src = 'blue.jpg';
-      blueImg.style.position = 'absolute';
-      blueImg.style.top = '50%';
-      blueImg.style.left = '50%';
-      blueImg.style.transform = 'translate(-50%, -50%)';
-      blueImg.style.width = '60%';
-      blueImg.style.zIndex = 1002;
-      document.body.appendChild(blueImg);
-    }, 5000);
+  const blueImg = document.createElement('img');
+  blueImg.src = 'blue.jpg';
+  blueImg.style.position = 'absolute';
+  blueImg.style.top = '50%';
+  blueImg.style.left = '50%';
+  blueImg.style.transform = 'translate(-50%, -50%)';
+  blueImg.style.width = '100%';
+blueImg.style.height = '100%';
+blueImg.style.objectFit = 'cover';
+  blueImg.style.zIndex = 1002;
+  document.body.appendChild(blueImg);
+}, 23000);
 
     setTimeout(() => {
       location.reload();
