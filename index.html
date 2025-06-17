@@ -104,6 +104,16 @@
       .container { width: 90vw; }
       #btn-start, #btn-how, #btn-start2 { width: 180px; }
     }
+    .fullscreen-img {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
+      background-color: black;
+      z-index: 1002;
+    }
   </style>
 </head>
 <body>
@@ -213,7 +223,9 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
           navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
               video.srcObject = stream;
-              triggerBurnSequence();
+            blinkWebcam(video); // 깜빡임 함수 호출 추가
+            triggerBurnSequence();
+
             })
             .catch(err => {
               console.error("웹캠 실패:", err);
@@ -275,12 +287,14 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       const fire = document.createElement('img');
       fire.src = 'fire.png';
       fire.style.position = 'absolute';
-     fire.style.top = 'calc(18.5% + 40%)'; // 웹캠 아래로 이동
+      fire.style.top = 'calc(18.5% + 40%)'; // 웹캠 아래로 이동
       fire.style.left = '50%';
       fire.style.transform = 'translateX(-50%)';
-      fire.style.zIndex = 1000;
-      fire.style.width = '200px';
-      fire.style.animation = 'firePulse 1s infinite ease-in-out';
+      fire.style.zIndex = 1005;
+     fire.style.width = '100vw';
+     fire.style.height = '100vh';
+     fire.style.objectFit = 'cover'; // 화면 전체 덮음
+
       document.querySelector('#game-page .container').appendChild(fire);
     }, 10000);
 
@@ -288,19 +302,11 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
   const darkOverlay = document.getElementById('dark-overlay');
   if (darkOverlay) {
     darkOverlay.style.zIndex = 900;
-    darkOverlay.style.transition = 'background-color 3s ease';
-    darkOverlay.style.display = 'block';
-   darkOverlay.style.opacity = 0.2;
+    darkOverlay.style.opacity = 0.2;
+darkOverlay.style.transition = 'opacity 5s ease';
 setTimeout(() => {
-  darkOverlay.style.transition = 'opacity 5s ease';
   darkOverlay.style.opacity = 0.8;
 }, 7000);
-
-    setTimeout(() => {
-      darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-    }, 100);
-  }
-}, 8000);
 
 
     setTimeout(() => {
@@ -339,14 +345,25 @@ setTimeout(() => {
       50% { transform: translateX(-50%) scale(1.3); opacity: 0.8; }
     }`;
   document.head.appendChild(fireStyle);
-
+     
+function blinkWebcam(videoElement) {
+  let blinkCount = 0;
+  const blinkInterval = setInterval(() => {
+    if (blinkCount >= 6) {
+      clearInterval(blinkInterval);
+      videoElement.style.opacity = 1;
+    } else {
+      videoElement.style.opacity = (blinkCount % 2 === 0) ? 0.2 : 1;
+      blinkCount++;
+    }
+  }, 300);
+}
   function showGlitches() {
     const glitchContainer = document.getElementById('glitch-container');
+   glitchContainer.innerHTML = '';
     const glitchStrings = [
       "66666666666666", "dddddddddddddd", "&&dd$!*@d^SYSTEM@!#!@666@66",
       "d$CRASHERROR&666CRASHd&FATALSYSTEMSYSTEM$d%",
-      "CRASH&d6*d!**666$%CRASH&CRASHSYSTEM!",
-      "FATAL@%666*666SYSTEM*ERRORSYSTEM",
       "ERROR$$##FATAL6%xFATAL*%!%", "@$6%@@^!CRASH#6^",
       "FATALCRASHERROR^&*d"
     ];
@@ -364,24 +381,18 @@ setTimeout(() => {
       glitch.style.position = 'absolute';
       glitch.style.color = 'red';
       glitch.style.fontWeight = 'bold';
-      glitch.style.zIndex = 1000;
       glitch.style.top = `${Math.random() * 90}%`;
-      glitch.style.left = `5%`; // 수평 고정
+      glitch.style.left = `${Math.random() * 90}%`; // 무작위 수평 위치
+      glitch.style.transform = `rotate(0deg)`; // 각도 제거
+      glitch.style.zIndex = 800; // 웹캠(z-index: 900 이상) 아래로
       glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
-      glitch.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
       glitchContainer.appendChild(glitch);
       glitchCount++;
     }, 300);
   }
 });
 </script>
-  .fullscreen-img {
-    max-width: 100vw;
-    max-height: 100vh;
-    object-fit: contain;
-    background-color: black;
-    z-index: 1001;
-  }
+
     <div id="dark-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:black; opacity:0.5; z-index:800;"></div>
 <div id="glitch-container"></div>
 </body>
