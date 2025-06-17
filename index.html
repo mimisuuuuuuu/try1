@@ -179,8 +179,9 @@
       clearInterval(blinkInterval);
       videoElement.style.opacity = 1;
     } else {
-  videoElement.style.filter = (blinkCount % 2 === 0) ? 'brightness(2.5) hue-rotate(90deg)' : 'none';
-  blinkCount++;
+ videoElement.style.backgroundColor = (blinkCount % 2 === 0) ? 'lime' : 'transparent';
+videoElement.style.mixBlendMode = 'screen';
+blinkCount++;
 }
   }, 100);
 }
