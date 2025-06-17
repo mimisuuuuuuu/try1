@@ -192,19 +192,29 @@
         return;
       }
 
-      const glitch = document.createElement('div');
-      glitch.className = 'error-glitch';
-      glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
-      glitch.style.position = 'absolute';
-      glitch.style.color = 'red';
-      glitch.style.fontWeight = 'bold';
-      glitch.style.top = `${Math.random() * 80 + 10}%`;   // 10% ~ 90% 범위로 조정
-      glitch.style.left = `${Math.random() * 80 + 10}%`;  // 10% ~ 90% 범위로 조정
-      glitch.style.transform = `rotate(0deg)`; // 각도 제거
-      glitch.style.zIndex = 700; // 웹캠(z-index: 900 이상) 아래로
-      glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
-      glitchContainer.appendChild(glitch);
-      glitchCount++;
+     const glitch = document.createElement('div');
+glitch.className = 'error-glitch';
+glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
+
+const randomTop = `${Math.random() * 80 + 10}%`;
+const randomLeft = `${Math.random() * 80 + 10}%`;
+const randomFontSize = `${Math.random() * 30 + 12}px`;
+
+glitch.style.cssText = `
+  position: absolute;
+  color: red;
+  font-weight: bold;
+  top: ${randomTop};
+  left: ${randomLeft};
+  transform: rotate(0deg);
+  z-index: 700;
+  font-size: ${randomFontSize};
+  pointer-events: none;
+`;
+
+glitchContainer.appendChild(glitch);
+glitchCount++;
+
     }, 300);
   }
 window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
