@@ -397,13 +397,14 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
   }, 10000);
 
   const fireStyle = document.createElement('style');
-  fireStyle.innerHTML = `
-    @keyframes firePulse {
-      0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
-      50% { transform: translateX(-50%) scale(1.3); opacity: 0.8; }
-    }`;
-  document.head.appendChild(fireStyle);
-} // ✅ 여기서 진짜 끝남
+fireStyle.innerHTML = `
+  @keyframes firePulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) scale(1.3); opacity: 0.8; }
+  }
+`;
+document.head.appendChild(fireStyle);
+
 });
 </script>
 
