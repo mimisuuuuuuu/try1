@@ -131,6 +131,12 @@
   #webcam-feed {
     animation: blink 1s steps(2, start) infinite;
   }
+    #glitch-container {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+}
+
   </style>
 </head>
 <body>
@@ -352,7 +358,7 @@ function updatePortrait() {
     const fire = document.createElement('img');
     fire.src = 'fire.png';
     fire.style.position = 'absolute';
-   fire.style.top = 'calc(18.5% + 25%)';  // ✅ 웹캠 하단에 딱!
+   fire.style.top = 'calc(18.5% + 15%)';  // ✅ 웹캠 하단에 딱!
     fire.style.left = '50%';
     fire.style.transform = 'translateX(-50%)';
     fire.style.zIndex = 1005;
