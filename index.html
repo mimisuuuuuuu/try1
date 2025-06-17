@@ -131,6 +131,14 @@
   #webcam-feed {
     animation: blink 1s steps(2, start) infinite;
   }
+    #glitch-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100; /* 🔽 웹캠보다 낮음 */
+  pointer-events: none;
+}
 
   </style>
 </head>
@@ -159,6 +167,7 @@
       <input id="user-input" type="text" placeholder="추모의 한 마디를 입력하세요">
       <div id="text-log"></div>
       <div id="percent-text">0%</div>
+      <div id="glitch-container"></div>
     </div>
   </div>
 
