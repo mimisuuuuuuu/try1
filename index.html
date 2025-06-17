@@ -179,9 +179,9 @@
       clearInterval(blinkInterval);
       videoElement.style.opacity = 1;
     } else {
-      videoElement.style.opacity = (blinkCount % 2 === 0) ? 0.1 : 1;
-      blinkCount++;
-    }
+  videoElement.style.filter = (blinkCount % 2 === 0) ? 'brightness(2.5) hue-rotate(90deg)' : 'none';
+  blinkCount++;
+}
   }, 100);
 }
   function showGlitches() {
