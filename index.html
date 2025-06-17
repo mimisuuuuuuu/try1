@@ -104,16 +104,25 @@
       .container { width: 90vw; }
       #btn-start, #btn-how, #btn-start2 { width: 180px; }
     }
-    .fullscreen-img {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 100vw;
-      max-height: 100vh;
-      object-fit: contain;
-      background-color: black;
-      z-index: 1002;
-    }
+   .fullscreen-img {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100vh;
+  width: auto;
+  object-fit: contain;
+  background-color: black;
+  z-index: 1002;
+}
+
+     @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  #webcam-feed {
+    animation: blink 1s steps(2, start) infinite;
+  }
   </style>
 </head>
 <body>
@@ -260,14 +269,13 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
           video.style.left = '50%';
           video.style.transform = 'translateX(-50%)';
           video.style.width = '40%';
-          video.style.zIndex = 11;
+          video.style.zIndex = 900;
           video.id = 'webcam-feed';
           document.querySelector('#game-page .container').appendChild(video);
 
           navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
               video.srcObject = stream;
-            blinkWebcam(video); // 깜빡임 함수 호출 추가
             triggerBurnSequence();
 
             })
@@ -331,12 +339,12 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
     const fire = document.createElement('img');
     fire.src = 'fire.png';
     fire.style.position = 'absolute';
-    fire.style.top = 'calc(18.5% + 40%)';
+    fire.style.top = 20
     fire.style.left = '50%';
     fire.style.transform = 'translateX(-50%)';
     fire.style.zIndex = 1005;
-    fire.style.width = '100vw';
-    fire.style.height = '100vh';
+    fire.style.width = '40%';
+    fire.style.height = 'auto';
     fire.style.objectFit = 'cover';
     document.querySelector('#game-page .container').appendChild(fire);
   }, 10000);
@@ -349,7 +357,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       darkOverlay.style.transition = 'opacity 5s ease';
       setTimeout(() => {
         darkOverlay.style.opacity = 0.8;
-      }, 7000);
+      }, 5000);
 
       setTimeout(() => {
         const dieImg = document.createElement('img');
