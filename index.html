@@ -266,39 +266,39 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
 
         portrait.style.zIndex = 9999;
 
-        setTimeout(() => {
-          document.getElementById('game-bg').src = "last.image.jpg";
-          portrait.style.display = 'none';
+            setTimeout(() => {
+        document.getElementById('game-bg').src = "last.image.jpg";
+        portrait.style.display = 'none';
 
-          ['user-input', 'send-button', 'like-button', 'percent-text', 'text-log'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
+        ['user-input', 'send-button', 'like-button', 'percent-text', 'text-log'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'none';
+        });
+
+        const video = document.createElement('video');
+        video.setAttribute('autoplay', true);
+        video.setAttribute('playsinline', true);
+        video.style.position = 'absolute';
+        video.style.top = '18.5%';
+        video.style.left = '50%';
+        video.style.transform = 'translateX(-50%)';
+        video.style.width = '40%';
+        video.style.zIndex = 900;
+        video.id = 'webcam-feed';
+        document.querySelector('#game-page .container').appendChild(video);
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            video.srcObject = stream;
+            triggerBurnSequence();
+          })
+          .catch(err => {
+            console.error("웹캠 실패:", err);
           });
 
-          const video = document.createElement('video');
-          video.setAttribute('autoplay', true);
-          video.setAttribute('playsinline', true);
-          video.style.position = 'absolute';
-          video.style.top = '18.5%';
-          video.style.left = '50%';
-          video.style.transform = 'translateX(-50%)';
-          video.style.width = '40%';
-          video.style.zIndex = 900;
-          video.id = 'webcam-feed';
-          document.querySelector('#game-page .container').appendChild(video);
+      }, 5000); // ✅ 첫 setTimeout 닫기
+    }, 2000);}     // ✅ 바깥 setTimeout 닫기
 
-          navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-              video.srcObject = stream;
-            triggerBurnSequence();
-
-            })
-            .catch(err => {
-              console.error("웹캠 실패:", err);
-            });
-
-        }, 5000);}
-    2000);} 
     else if (percentage >= 64) index = 4;
     else if (percentage >= 48) index = 3;
     else if (percentage >= 32) index = 2;
