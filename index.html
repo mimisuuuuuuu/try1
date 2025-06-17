@@ -165,14 +165,14 @@
     function blinkWebcam(videoElement) {
   let blinkCount = 0;
   const blinkInterval = setInterval(() => {
-    if (blinkCount >= 6) {
+    if (blinkCount >= 10) {
       clearInterval(blinkInterval);
       videoElement.style.opacity = 1;
     } else {
-      videoElement.style.opacity = (blinkCount % 2 === 0) ? 0.2 : 1;
+      videoElement.style.opacity = (blinkCount % 2 === 0) ? 0.1 : 1;
       blinkCount++;
     }
-  }, 300);
+  }, 150);
 }
   function showGlitches() {
     const glitchContainer = document.getElementById('glitch-container');
@@ -352,7 +352,7 @@ function updatePortrait() {
     const fire = document.createElement('img');
     fire.src = 'fire.png';
     fire.style.position = 'absolute';
-   fire.style.top = '30'; // ✅ 웹캠 하단에 딱!
+   fire.style.top = 'calc(18.5% + 25%)';  // ✅ 웹캠 하단에 딱!
     fire.style.left = '50%';
     fire.style.transform = 'translateX(-50%)';
     fire.style.zIndex = 1005;
