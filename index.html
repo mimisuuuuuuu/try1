@@ -203,8 +203,8 @@
       glitch.style.position = 'absolute';
       glitch.style.color = 'red';
       glitch.style.fontWeight = 'bold';
-      glitch.style.top = `${Math.random() * 90}%`;
-      glitch.style.left = `${Math.random() * 90}%`; // 무작위 수평 위치
+      glitch.style.top = `${Math.random() * 80 + 10}%`;   // 10% ~ 90% 범위로 조정
+      glitch.style.left = `${Math.random() * 80 + 10}%`;  // 10% ~ 90% 범위로 조정
       glitch.style.transform = `rotate(0deg)`; // 각도 제거
       glitch.style.zIndex = 700; // 웹캠(z-index: 900 이상) 아래로
       glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
@@ -364,6 +364,7 @@ function updatePortrait() {
     fire.style.zIndex = 1005;
     fire.style.width = '40%';
     fire.style.height = 'auto';
+    fire.style.animation = 'firePulse 1s infinite';
     fire.style.objectFit = 'cover';
     document.querySelector('#game-page .container').appendChild(fire);
   }, 10000);
