@@ -200,7 +200,7 @@
       glitch.style.top = `${Math.random() * 90}%`;
       glitch.style.left = `${Math.random() * 90}%`; // 무작위 수평 위치
       glitch.style.transform = `rotate(0deg)`; // 각도 제거
-      glitch.style.zIndex = 800; // 웹캠(z-index: 900 이상) 아래로
+      glitch.style.zIndex = 700; // 웹캠(z-index: 900 이상) 아래로
       glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
       glitchContainer.appendChild(glitch);
       glitchCount++;
@@ -352,7 +352,7 @@ function updatePortrait() {
     const fire = document.createElement('img');
     fire.src = 'fire.png';
     fire.style.position = 'absolute';
-   fire.style.top = 'calc(18.5% + 40%)'; // ✅ 웹캠 하단에 딱!
+   fire.style.top = '30'; // ✅ 웹캠 하단에 딱!
     fire.style.left = '50%';
     fire.style.transform = 'translateX(-50%)';
     fire.style.zIndex = 1005;
