@@ -104,16 +104,24 @@
       .container { width: 90vw; }
       #btn-start, #btn-how, #btn-start2 { width: 180px; }
     }
-   .fullscreen-img {
+  .fullscreen-wrapper {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black; /* 양옆 검정 배경 */
+  z-index: 1002;
+}
+
+.fullscreen-img {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   height: 100vh;
   width: auto;
   object-fit: contain;
-  background-color: black;
-  z-index: 1002;
 }
+
 
      @keyframes blink {
     0%, 100% { opacity: 1; }
@@ -239,16 +247,22 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       percentText.textContent = `${percentage}%`;
       showGlitches();
 
-      setTimeout(() => {
-        portrait.src = "last.message.png";
-        const darkOverlay = document.getElementById('dark-overlay');
-        darkOverlay.style.display = 'block';
-        darkOverlay.style.zIndex = 1;
-        darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-        darkOverlay.style.transition = 'background-color 2s ease';
-        setTimeout(() => {
-          darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        }, 100);
+     setTimeout(() => {
+  portrait.src = "last.message.png";
+  portrait.style.zIndex = 1001;
+
+  const darkOverlay = document.getElementById('dark-overlay');
+  darkOverlay.style.display = 'block';
+  darkOverlay.style.zIndex = 800;
+  darkOverlay.style.opacity = 0;
+  darkOverlay.style.transition = 'opacity 5s ease';
+
+  // 5초 후에 어두워지기 시작
+  setTimeout(() => {
+    darkOverlay.style.opacity = 0.8;
+  }, 5000);
+}, 0);
+
 
         portrait.style.zIndex = 9999;
 
@@ -339,7 +353,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
     const fire = document.createElement('img');
     fire.src = 'fire.png';
     fire.style.position = 'absolute';
-    fire.style.top = 20
+   fire.style.top = 'calc(18.5% + 40%)'; // ✅ 웹캠 하단에 딱!
     fire.style.left = '50%';
     fire.style.transform = 'translateX(-50%)';
     fire.style.zIndex = 1005;
@@ -349,39 +363,32 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
     document.querySelector('#game-page .container').appendChild(fire);
   }, 10000);
 
-  setTimeout(() => {
-    const darkOverlay = document.getElementById('dark-overlay');
-    if (darkOverlay) {
-      darkOverlay.style.zIndex = 900;
-      darkOverlay.style.opacity = 0.2;
-      darkOverlay.style.transition = 'opacity 5s ease';
-      setTimeout(() => {
-        darkOverlay.style.opacity = 0.8;
-      }, 5000);
 
-      setTimeout(() => {
-        const dieImg = document.createElement('img');
-        dieImg.src = 'die.jpg';
-        dieImg.style.position = 'absolute';
-        dieImg.style.top = '50%';
-        dieImg.style.left = '50%';
-        dieImg.style.transform = 'translate(-50%, -50%)';
-        dieImg.className = 'fullscreen-img';
-        dieImg.style.zIndex = 1001;
-        document.body.appendChild(dieImg);
-      }, 15000);
 
-      setTimeout(() => {
-        const blueImg = document.createElement('img');
-        blueImg.src = 'blue.jpg';
-        blueImg.style.position = 'absolute';
-        blueImg.style.top = '50%';
-        blueImg.style.left = '50%';
-        blueImg.style.transform = 'translate(-50%, -50%)';
-        blueImg.className = 'fullscreen-img';
-        blueImg.style.zIndex = 1002;
-        document.body.appendChild(blueImg);
-      }, 23000);
+     setTimeout(() => {
+  const dieWrapper = document.createElement('div');
+  dieWrapper.className = 'fullscreen-wrapper';
+
+  const dieImg = document.createElement('img');
+  dieImg.src = 'die.jpg';
+  dieImg.className = 'fullscreen-img';
+
+  dieWrapper.appendChild(dieImg);
+  document.body.appendChild(dieWrapper);
+}, 15000);
+
+     setTimeout(() => {
+  const blueWrapper = document.createElement('div');
+  blueWrapper.className = 'fullscreen-wrapper';
+
+  const blueImg = document.createElement('img');
+  blueImg.src = 'blue.jpg';
+  blueImg.className = 'fullscreen-img';
+
+  blueWrapper.appendChild(blueImg);
+  document.body.appendChild(blueWrapper);
+}, 23000);
+
 
       setTimeout(() => {
         location.reload();
