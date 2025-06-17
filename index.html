@@ -106,9 +106,7 @@
     }
   </style>
 </head>
-<body onclick="enterFullscreen()">
-
-
+<body>
   <div id="main-page" class="page active">
     <div class="container">
       <img src="first.jpg" alt="메인 이미지" class="page-img">
@@ -138,6 +136,14 @@
 
   <script>
 window.addEventListener('DOMContentLoaded', () => {
+  document.body.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.warn("전체화면 진입 실패:", err);
+      });
+    }
+  });
+
   let percentage = 0;
   const portrait = document.getElementById('portrait');
   const percentText = document.getElementById('percent-text');
@@ -153,13 +159,20 @@ window.addEventListener('DOMContentLoaded', () => {
       portrait.src = portraits[index];
       percentText.textContent = `${percentage}%`;
 
+      showGlitches();
+
       setTimeout(() => {
         portrait.src = "last.message.png";
-document.getElementById('dark-overlay').style.display = 'block';
-// 추가
-document.getElementById('dark-overlay').style.zIndex = 1; // 배경 아래로
-portrait.style.zIndex = 9999; // 이미지 위로
+        const darkOverlay = document.getElementById('dark-overlay');
+        darkOverlay.style.display = 'block';
+        darkOverlay.style.zIndex = 1;
+        darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        darkOverlay.style.transition = 'background-color 2s ease';
+        setTimeout(() => {
+          darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        }, 100);
 
+        portrait.style.zIndex = 9999;
 
         setTimeout(() => {
           document.getElementById('game-bg').src = "last.image.jpg";
@@ -191,37 +204,7 @@ portrait.style.zIndex = 9999; // 이미지 위로
               console.error("웹캠 실패:", err);
             });
 
-         const glitchContainer = document.getElementById('glitch-container');
-const glitchStrings = [
-  "66666666666666", "dddddddddddddd", "&&dd$!*@d^SYSTEM@!#!@666@66",
-  "d$CRASHERROR&666CRASHd&FATALSYSTEMSYSTEM$d%",
-  "CRASH&d6*d!**666$%CRASH&CRASHSYSTEM!", 
-  "FATAL@%666*666SYSTEM*ERRORSYSTEM", 
-  "ERROR$$##FATAL6%xFATAL*%!%", "@$6%@@^!CRASH#6^", 
-  "FATALCRASHERROR^&*d"
-];
-
-let glitchCount = 0;
-const glitchInterval = setInterval(() => {
-  if (glitchCount >= 30) {
-    clearInterval(glitchInterval);
-    return;
-  }
-  const glitch = document.createElement('div');
-  glitch.className = 'error-glitch';
-  glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
-  glitch.style.position = 'absolute';
-  glitch.style.color = 'red';
-  glitch.style.fontWeight = 'bold';
-  glitch.style.zIndex = 1000;
-  glitch.style.top = `${Math.random() * 90}%`;
-  glitch.style.left = `${Math.random() * 90}%`;
-  glitchContainer.appendChild(glitch);
-  glitchCount++;
-}, 500);
-
-
-        }, 3000);
+        }, 5000);
       }, 2000);
     } else if (percentage >= 64) index = 4;
     else if (percentage >= 48) index = 3;
@@ -275,65 +258,63 @@ const glitchInterval = setInterval(() => {
 
   function triggerBurnSequence() {
     setTimeout(() => {
-  const fire = document.createElement('img');
-  fire.src = 'fire.png';
-  fire.style.position = 'absolute';
-  fire.style.bottom = '5%';
-  fire.style.left = '50%';
-  fire.style.transform = 'translateX(-50%)';
-  fire.style.zIndex = 1000;
-  fire.style.width = '200px';
-  fire.style.animation = 'firePulse 1s infinite ease-in-out';
-  document.querySelector('#game-page .container').appendChild(fire);
-}, 10000); // 웹캠 전환 후 10초 뒤에 등장
+      const fire = document.createElement('img');
+      fire.src = 'fire.png';
+      fire.style.position = 'absolute';
+      fire.style.bottom = '5%';
+      fire.style.left = '50%';
+      fire.style.transform = 'translateX(-50%)';
+      fire.style.zIndex = 1000;
+      fire.style.width = '200px';
+      fire.style.animation = 'firePulse 1s infinite ease-in-out';
+      document.querySelector('#game-page .container').appendChild(fire);
+    }, 10000);
 
-
-    const darkOverlay = document.createElement('div');
-    darkOverlay.style.position = 'absolute';
-    darkOverlay.style.top = 0;
-    darkOverlay.style.left = 0;
-    darkOverlay.style.width = '100%';
-    darkOverlay.style.height = '100%';
-    darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+   setTimeout(() => {
+  const darkOverlay = document.getElementById('dark-overlay');
+  if (darkOverlay) {
     darkOverlay.style.zIndex = 900;
     darkOverlay.style.transition = 'background-color 3s ease';
-    document.body.appendChild(darkOverlay);
-
+    darkOverlay.style.display = 'block';
+    darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     setTimeout(() => {
-      darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
     }, 100);
+  }
+}, 8000);
 
-      setTimeout(() => {
-  const dieImg = document.createElement('img');
-  dieImg.src = 'die.jpg';
-  dieImg.style.position = 'absolute';
-  dieImg.style.top = '50%';
-  dieImg.style.left = '50%';
-  dieImg.style.transform = 'translate(-50%, -50%)';
-  dieImg.style.width = '100%';
-dieImg.style.height = '100%';
-dieImg.style.objectFit = 'cover';
-  dieImg.style.zIndex = 1001;
-  document.body.appendChild(dieImg);
-}, 15000);
 
     setTimeout(() => {
-  const blueImg = document.createElement('img');
-  blueImg.src = 'blue.jpg';
-  blueImg.style.position = 'absolute';
-  blueImg.style.top = '50%';
-  blueImg.style.left = '50%';
-  blueImg.style.transform = 'translate(-50%, -50%)';
-  blueImg.style.width = '100%';
-blueImg.style.height = '100%';
-blueImg.style.objectFit = 'cover';
-  blueImg.style.zIndex = 1002;
-  document.body.appendChild(blueImg);
-}, 23000);
+      const dieImg = document.createElement('img');
+      dieImg.src = 'die.jpg';
+      dieImg.style.position = 'absolute';
+      dieImg.style.top = '50%';
+      dieImg.style.left = '50%';
+      dieImg.style.transform = 'translate(-50%, -50%)';
+      dieImg.style.width = '100%';
+      dieImg.style.height = '100%';
+      dieImg.style.objectFit = 'cover';
+      dieImg.style.zIndex = 1001;
+      document.body.appendChild(dieImg);
+    }, 15000);
+
+    setTimeout(() => {
+      const blueImg = document.createElement('img');
+      blueImg.src = 'blue.jpg';
+      blueImg.style.position = 'absolute';
+      blueImg.style.top = '50%';
+      blueImg.style.left = '50%';
+      blueImg.style.transform = 'translate(-50%, -50%)';
+      blueImg.style.width = '100%';
+      blueImg.style.height = '100%';
+      blueImg.style.objectFit = 'cover';
+      blueImg.style.zIndex = 1002;
+      document.body.appendChild(blueImg);
+    }, 23000);
 
     setTimeout(() => {
       location.reload();
-    }, 8000);
+    }, 30000);
   }
 
   const fireStyle = document.createElement('style');
@@ -344,35 +325,39 @@ blueImg.style.objectFit = 'cover';
     }`;
   document.head.appendChild(fireStyle);
 
-  function enterFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(err => {
-        console.warn(`전체화면 전환 실패: ${err.message}`);
-      });
-    }
-  }
+  function showGlitches() {
+    const glitchContainer = document.getElementById('glitch-container');
+    const glitchStrings = [
+      "66666666666666", "dddddddddddddd", "&&dd$!*@d^SYSTEM@!#!@666@66",
+      "d$CRASHERROR&666CRASHd&FATALSYSTEMSYSTEM$d%",
+      "CRASH&d6*d!**666$%CRASH&CRASHSYSTEM!",
+      "FATAL@%666*666SYSTEM*ERRORSYSTEM",
+      "ERROR$$##FATAL6%xFATAL*%!%", "@$6%@@^!CRASH#6^",
+      "FATALCRASHERROR^&*d"
+    ];
 
-  function keepFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    }
-  }
+    let glitchCount = 0;
+    const glitchInterval = setInterval(() => {
+      if (glitchCount >= 30) {
+        clearInterval(glitchInterval);
+        return;
+      }
 
-  document.addEventListener('fullscreenchange', keepFullscreen);
-  document.getElementById('btn-start').addEventListener('click', () => {
-    enterFullscreen();
-    document.getElementById('main-page').classList.remove('active');
-    document.getElementById('game-page').classList.add('active');
-  });
-  document.getElementById('btn-how').addEventListener('click', () => {
-    document.getElementById('main-page').classList.remove('active');
-    document.getElementById('how-page').classList.add('active');
-  });
-  document.getElementById('btn-start2').addEventListener('click', () => {
-    enterFullscreen();
-    document.getElementById('how-page').classList.remove('active');
-    document.getElementById('game-page').classList.add('active');
-  });
+      const glitch = document.createElement('div');
+      glitch.className = 'error-glitch';
+      glitch.textContent = glitchStrings[Math.floor(Math.random() * glitchStrings.length)];
+      glitch.style.position = 'absolute';
+      glitch.style.color = 'red';
+      glitch.style.fontWeight = 'bold';
+      glitch.style.zIndex = 1000;
+      glitch.style.top = `${Math.random() * 90}%`;
+      glitch.style.left = `${Math.random() * 90}%`;
+      glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
+      glitch.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+      glitchContainer.appendChild(glitch);
+      glitchCount++;
+    }, 300);
+  }
 });
 </script>
     <div id="dark-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:black; opacity:0.5; z-index:800;"></div>
