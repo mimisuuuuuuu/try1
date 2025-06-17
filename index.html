@@ -171,11 +171,9 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
 
   function updatePortrait() {
     let index = 0;
-    if (percentage >= 80) {
-      index = 5;
-      portrait.src = portraits[index];
+     if (percentage >= 80) {
+      portrait.src = portraits[5];
       percentText.textContent = `${percentage}%`;
-
       showGlitches();
 
       setTimeout(() => {
@@ -233,7 +231,6 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       percentText.textContent = `${percentage}%`;
     }
   }
-
   function increasePercentage() {
     if (percentage < 99) {
       percentage += 8;
@@ -278,7 +275,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       const fire = document.createElement('img');
       fire.src = 'fire.png';
       fire.style.position = 'absolute';
-      fire.style.bottom = '5%';
+     fire.style.top = 'calc(18.5% + 40%)'; // 웹캠 아래로 이동
       fire.style.left = '50%';
       fire.style.transform = 'translateX(-50%)';
       fire.style.zIndex = 1000;
@@ -293,7 +290,12 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
     darkOverlay.style.zIndex = 900;
     darkOverlay.style.transition = 'background-color 3s ease';
     darkOverlay.style.display = 'block';
-    darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+   darkOverlay.style.opacity = 0.2;
+setTimeout(() => {
+  darkOverlay.style.transition = 'opacity 5s ease';
+  darkOverlay.style.opacity = 0.8;
+}, 7000);
+
     setTimeout(() => {
       darkOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
     }, 100);
@@ -308,9 +310,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       dieImg.style.top = '50%';
       dieImg.style.left = '50%';
       dieImg.style.transform = 'translate(-50%, -50%)';
-      dieImg.style.width = '100%';
-      dieImg.style.height = '100%';
-      dieImg.style.objectFit = 'cover';
+      dieImg.className = 'fullscreen-img';
       dieImg.style.zIndex = 1001;
       document.body.appendChild(dieImg);
     }, 15000);
@@ -322,9 +322,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       blueImg.style.top = '50%';
       blueImg.style.left = '50%';
       blueImg.style.transform = 'translate(-50%, -50%)';
-      blueImg.style.width = '100%';
-      blueImg.style.height = '100%';
-      blueImg.style.objectFit = 'cover';
+      blueImg.className = 'fullscreen-img';
       blueImg.style.zIndex = 1002;
       document.body.appendChild(blueImg);
     }, 23000);
@@ -355,7 +353,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
 
     let glitchCount = 0;
     const glitchInterval = setInterval(() => {
-      if (glitchCount >= 30) {
+      if (glitchCount >= 6) {
         clearInterval(glitchInterval);
         return;
       }
@@ -368,7 +366,7 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
       glitch.style.fontWeight = 'bold';
       glitch.style.zIndex = 1000;
       glitch.style.top = `${Math.random() * 90}%`;
-      glitch.style.left = `${Math.random() * 90}%`;
+      glitch.style.left = `5%`; // 수평 고정
       glitch.style.fontSize = `${Math.random() * 30 + 12}px`;
       glitch.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
       glitchContainer.appendChild(glitch);
@@ -377,6 +375,13 @@ window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
   }
 });
 </script>
+  .fullscreen-img {
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
+    background-color: black;
+    z-index: 1001;
+  }
     <div id="dark-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:black; opacity:0.5; z-index:800;"></div>
 <div id="glitch-container"></div>
 </body>
