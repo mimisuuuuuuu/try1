@@ -135,7 +135,24 @@
   </div>
 
   <script>
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => { // 게임 시작 버튼
+  document.getElementById('btn-start').addEventListener('click', () => {
+    document.getElementById('main-page').classList.remove('active');
+    document.getElementById('game-page').classList.add('active');
+  });
+
+  // 게임 방법 보기 버튼
+  document.getElementById('btn-how').addEventListener('click', () => {
+    document.getElementById('main-page').classList.remove('active');
+    document.getElementById('how-page').classList.add('active');
+  });
+
+  // 게임 방법 화면에서 게임 시작 버튼
+  document.getElementById('btn-start2').addEventListener('click', () => {
+    document.getElementById('how-page').classList.remove('active');
+    document.getElementById('game-page').classList.add('active');
+  });
+
   document.body.addEventListener('click', () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(err => {
