@@ -175,7 +175,7 @@
     function blinkWebcam(videoElement) {
   let blinkCount = 0;
   const blinkInterval = setInterval(() => {
-    if (blinkCount >= 10) {
+    if (blinkCount >= 15) {
       clearInterval(blinkInterval);
       videoElement.style.opacity = 1;
     } else {
